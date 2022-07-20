@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="MailApp">
+
+  <Id>ba341605-ab26-4d97-bc69-64299f9bc6f5</Id>
+
+  <Version>1.0.0.0</Version>
+  <ProviderName>Contoso</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+
+  <DisplayName DefaultValue="Signatures add-in" />
+  <Description DefaultValue="MRE" />
+
+  <IconUrl DefaultValue="https://localhost:3000/assets/logo-32.png" />
+  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/logo-filled.png" />
+
+  <SupportUrl DefaultValue="https://contoso.net/" />
+
+  <AppDomains>
+    <AppDomain>https://contoso.net</AppDomain>
+  </AppDomains>
+
+  <Hosts>
+    <Host Name="Mailbox" />
+  </Hosts>
+
+  <Requirements>
+    <Sets DefaultMinVersion="1.1">
+      <Set Name="Mailbox" />
+    </Sets>
+  </Requirements>
+
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://localhost:3000/outlook-taskpane.html" />
+        <RequestedHeight>250</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+
+  <Permissions>ReadWriteMailbox</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read" />
+  </Rule>
+  <DisableEntityHighlighting>false</DisableEntityHighlighting>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+      <Requirements>
+        <bt:Sets DefaultMinVersion="1.10">
+          <bt:Set Name="Mailbox" />
+        </bt:Sets>
+      </Requirements>
+      <Hosts>
+        <Host xsi:type="MailHost">
+
+          <Runtimes>
+            <Runtime resid="OutlookWebEventHandler.Url">
+              <Override type="javascript" resid="OutlookEventHandler.Url" />
+            </Runtime>
+          </Runtimes>
+
+          <DesktopFormFactor>
+
+            <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+              <OfficeTab id="TabDefault">
+                <Group id="contosoSignaturesGroupMessageCompose">
+                  <Label resid="GroupLabel" />
+
+                  <Control xsi:type="Button" id="signatureTaskpaneButtonMessageCompose">
+                    <Label resid="TaskpaneButton.Label" />
+                    <Supertip>
+                      <Title resid="TaskpaneButton.Label" />
+                      <Description resid="TaskpaneButton.Tooltip" />
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="Icon.16x16" />
+                      <bt:Image size="32" resid="Icon.32x32" />
+                      <bt:Image size="80" resid="Icon.80x80" />
+                    </Icon>
+                    <Action xsi:type="ShowTaskpane">
+                      <SourceLocation resid="Taskpane.Url" />
+                    </Action>
+                  </Control>
+
+                </Group>
+              </OfficeTab>
+            </ExtensionPoint>
+
+            <ExtensionPoint xsi:type="AppointmentOrganizerCommandSurface">
+              <OfficeTab id="TabDefault">
+                <Group id="contosoSignaturesGroupAppointmentOrganizer">
+                  <Label resid="GroupLabel" />
+
+                  <Control xsi:type="Button" id="signatureTaskpaneButtonAppointmentOrganizer">
+                    <Label resid="TaskpaneButton.Label" />
+                    <Supertip>
+                      <Title resid="TaskpaneButton.Label" />
+                      <Description resid="TaskpaneButton.Tooltip" />
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="Icon.16x16" />
+                      <bt:Image size="32" resid="Icon.32x32" />
+                      <bt:Image size="80" resid="Icon.80x80" />
+                    </Icon>
+                    <Action xsi:type="ShowTaskpane">
+                      <SourceLocation resid="Taskpane.Url" />
+                    </Action>
+                  </Control>
+
+                </Group>
+              </OfficeTab>
+            </ExtensionPoint>
+
+            <ExtensionPoint xsi:type="LaunchEvent">
+              <LaunchEvents>
+                <LaunchEvent Type="OnNewMessageCompose" FunctionName="addSignature" />
+                <LaunchEvent Type="OnNewAppointmentOrganizer" FunctionName="addSignature" />
+              </LaunchEvents>
+              <SourceLocation resid="OutlookWebEventHandler.Url" />
+            </ExtensionPoint>
+
+          </DesktopFormFactor>
+        </Host>
+      </Hosts>
+
+      <Resources>
+        <bt:Images>
+          <bt:Image id="Icon.16x16" DefaultValue="https://localhost:3000/assets/logo-16.png" />
+          <bt:Image id="Icon.32x32" DefaultValue="https://localhost:3000/assets/logo-32.png" />
+          <bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/assets/logo-80.png" />
+        </bt:Images>
+
+        <bt:Urls>
+          <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000/outlook-taskpane.html" />
+          <bt:Url id="OutlookEventHandler.Url" DefaultValue="https://localhost:3000/static/js/outlook-event.js" />
+          <bt:Url id="OutlookWebEventHandler.Url" DefaultValue="https://localhost:3000/outlook-event.html" />
+        </bt:Urls>
+        <bt:ShortStrings>
+          <bt:String id="GroupLabel" DefaultValue="Signatures" />
+          <bt:String id="TaskpaneButton.Label" DefaultValue="Manage Signatures" />
+        </bt:ShortStrings>
+        <bt:LongStrings>
+          <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Opens a pane to manage your Outlook signatures." />
+        </bt:LongStrings>
+      </Resources>
+
+      <WebApplicationInfo>
+        <Id>ba341605-ab26-4d97-bc69-64299f9bc6f5</Id>
+        <Resource>api://localhost:3000/ba341605-ab26-4d97-bc69-64299f9bc6f5</Resource>
+        <Scopes>
+          <Scope>User.Read</Scope>
+          <Scope>profile</Scope>
+          <Scope>openid</Scope>
+          <Scope>email</Scope>
+          <Scope>offline_access</Scope>
+        </Scopes>
+      </WebApplicationInfo>
+    </VersionOverrides>
+  </VersionOverrides>
+</OfficeApp>
